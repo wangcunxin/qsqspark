@@ -3,8 +3,8 @@ import os
 import time
 
 from beehive.beehivelogger import *
-from beehive.configure.properties import Properties
 from beehive.transfer.utils.sqoop_utils import HiveUtil
+from beehive.utils.properties import Properties
 
 __author__ = 'kevin'
 
