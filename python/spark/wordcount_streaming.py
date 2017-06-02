@@ -34,6 +34,7 @@ if __name__ == '__main__':
     wc = kafka_stream.map(lambda x: x[1]).map(lambda x: x.split(__separator)).map(lambda word: (word, 1))\
         .reduceByKey(add)
     wc.pprint(10)
+
     def sendPartition(_time, lines):
         print("========= %s =========" % str(_time))
         size = lines.count()

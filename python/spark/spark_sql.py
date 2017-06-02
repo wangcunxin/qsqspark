@@ -13,18 +13,16 @@ if __name__ == '__main__':
     app_name = "wc"
     input = 'file:/Users/wangcunxin/temp/input/*'
 
-    spark_home = '/Users/wangcunxin/galaxy/spark-2.1.1-bin-hadoop2.6'
-    os.environ['SPARK_HOME'] = spark_home
-
     spark = SparkSession \
         .builder \
         .appName(app_name) \
+        .master("local[2]") \
         .getOrCreate()
     sc = spark.sparkContext
-
     lines = sc.textFile(input)
-    users = lines.map(lambda x: x[1].split(' ')).filter(lambda x: len(x) == 2) \
+    users = lines.map(lambda l: l.split(' ')).filter(lambda a: len(a) == 2) \
         .map(lambda p: (p[0], p[1].strip()))
+    users.take(1)
 
     schema_string = "firstname lastname"
     fields = [StructField(field_name, StringType(), True) for field_name in schema_string.split(' ')]
@@ -33,11 +31,11 @@ if __name__ == '__main__':
     schema_users.createOrReplaceTempView("user")
 
     # regist udf
-    #spark.registerFunction("get_date", lambda x: DateUtil.str_to_date(x).date(), DateType())
-    #spark.registerFunction("date_diff", lambda x, k: DateUtil.date_diff(x, k), IntegerType())
-    #spark.registerFunction("get_hour", lambda x: DateUtil.str_to_date(x).hour(), IntegerType())
-    #spark.registerFunction("to_int", lambda x: int(x), IntegerType())
-    #spark.registerFunction("timestamp_diff", lambda x, k: DateUtil.timestamp_diff(x, k), IntegerType())
+    # sc.registerFunction("get_date", lambda x: DateUtil.str_to_date(x).date(), DateType())
+    # sc.registerFunction("date_diff", lambda x, k: DateUtil.date_diff(x, k), IntegerType())
+    # sc.registerFunction("get_hour", lambda x: DateUtil.str_to_date(x).hour(), IntegerType())
+    # sc.registerFunction("to_int", lambda x: int(x), IntegerType())
+    # sc.registerFunction("timestamp_diff", lambda x, k: DateUtil.timestamp_diff(x, k), IntegerType())
 
     _sql = "select firstname,lastname from user"
     rs = spark.sql(_sql)
@@ -57,4 +55,10 @@ if __name__ == '__main__':
     # write to file
     #self._write_file(lines_list, output)
 
+    print("="*10)
+    _sql = "select count(distinct firstname) uv,count(1) pv from user"
+    rs = spark.sql(_sql)
+    rs.show()
+
     sc.stop()
+    spark.stop()
