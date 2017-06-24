@@ -1,0 +1,21 @@
+vim ~/.pip/pip.conf
+[global]
+index-url = http://mirrors.aliyun.com/pypi/simple
+index-url = https://pypi.tuna.tsinghua.edu.cn/simple
+index-url = http://pypi.douban.com/simple
+
+ pip install xgboost==0.4a30
+
+ #plot
+matplotlib
+
+#ml
+numpy scipy scikit-learn pandas xgboost minepy
+
+#etl
+apt-get install libpq-dev python-dev
+pip install psycopg2 pymongo hbase-thrift pymysql kafka-python cx_Oracle
+
+# pip install tensorflow
+sudo pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.8.0-cp27-none-linux_x86_64.whl
+python>import tensorflow as tf
