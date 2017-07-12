@@ -22,3 +22,4 @@ oauth_user_extend=-,oauth_user_extend_id
 product=product_update_at,product_id
 statistics=statistics_create_at,statistics_id
 transaction=transaction_update_at,transaction_id
+holiday=-,date

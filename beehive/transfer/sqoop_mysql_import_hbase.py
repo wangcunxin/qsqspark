@@ -35,10 +35,12 @@ def main(argv):
     username = conf.get("%s.username" % db_name)
     password = conf.get("%s.password" % db_name)
 
-    conf_file = "%s/../configure/paydayloan_tbs.sql" % current_path
+    conf_file = "%s/../configure/%s_tbs.sql" % (current_path,db_name)
     read_file = open(conf_file)
 
     for kv in read_file:
+        if kv.find("#") >= 0:
+            continue
         a = kv.replace('\n', '').split('=')
         tb_name = a[0]
         uk = a[1].split(",")
@@ -56,7 +58,7 @@ def main(argv):
                             'key': key, 'cf': HiveUtil.CF,
                             'update_time': update_time, 'begin_date': begin_date, 'end_date': end_date})
         execute_sqoop(sqoop_cmd, db_name, tb_name)
-        break
+
     read_file.close()
 
 
