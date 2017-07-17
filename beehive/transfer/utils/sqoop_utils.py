@@ -11,7 +11,7 @@ class HiveUtil:
     def templete_sql_hive():
         cmd = '''
         sqoop import \
-        --connect "jdbc:mysql://%(host)s:%(port)s/%(db_name)s" \
+        --connect "jdbc:mysql://%(host)s:%(port)s/%(db_name)s?tinyInt1isBit=false" \
         --username %(username)s \
         --password %(password)s \
         --table "%(tb_name)s" \
@@ -28,7 +28,7 @@ class HiveUtil:
     def templete_sql_hive_append():
         cmd = '''
         sqoop import \
-        --connect "jdbc:mysql://%(host)s:%(port)s/%(db_name)s" \
+        --connect "jdbc:mysql://%(host)s:%(port)s/%(db_name)s?tinyInt1isBit=false" \
         --username %(username)s \
         --password %(password)s \
         --table "%(tb_name)s" \
@@ -46,7 +46,7 @@ class HiveUtil:
     def templete_sql_hbase_append():
         cmd = '''
         sqoop import \
-        --connect "jdbc:mysql://%(host)s:%(port)s/%(db_name)s" \
+        --connect "jdbc:mysql://%(host)s:%(port)s/%(db_name)s?tinyInt1isBit=false" \
         --username %(username)s \
         --password %(password)s \
         --table %(tb_name)s \
@@ -62,7 +62,7 @@ class HiveUtil:
     def templete_sql_hbase():
         cmd = '''
         sqoop import \
-        --connect "jdbc:mysql://%(host)s:%(port)s/%(db_name)s" \
+        --connect "jdbc:mysql://%(host)s:%(port)s/%(db_name)s?tinyInt1isBit=false" \
         --username %(username)s \
         --password %(password)s \
         --table %(tb_name)s \
