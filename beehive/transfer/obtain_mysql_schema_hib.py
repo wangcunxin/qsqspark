@@ -8,11 +8,11 @@ import sys
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
-dbname = 'cash'
-conn = pymysql.connect(host='10.1.0.15', port=3306, user='hadoop-cash', passwd='Hx53cSswb3hANcaZ', db=dbname,
+dbname = 'paydayloan'
+conn = pymysql.connect(host='127.0.0.1', port=3307, user='kfq', passwd='as$h9LxgC1kH', db=dbname,
                        charset='utf8')
 cur = conn.cursor()
-cur.execute("use cash;")
+cur.execute("use %s;" % dbname)
 rs = cur.execute("show tables;")
 tbs = []
 for r in cur.fetchmany(rs):
@@ -28,12 +28,13 @@ for tablename in tbs:
     str0 = str1 + str2
     str3 = ''
     # 获取表注释
-    tablename1 = '\'' + tablename + '\''
-    tab_comm = cur.execute("show table status where name = %s" % tablename1);
+    _sql = "show table status where name = '%s'" % tablename
+    tab_comm = cur.execute(_sql);
     for comm in cur.fetchmany(tab_comm):
         str3 = comm[-1]
     # 获取表字段及字段类型和注释
-    res = cur.execute("show full fields from %s" % tablename)
+    _sql = "show full fields from %s" % tablename
+    res = cur.execute(_sql)
     for row in cur.fetchmany(res):
         str0 += row[0] + ' ' + row[1] + ' comment \'' + row[-1] + '\',' + '\n'
         col_name.append(row[0])
@@ -66,16 +67,21 @@ for tablename in tbs:
     # 输出
     output1 = open('/Users/wangcunxin/temp/output/%s_hib.sql' % dbname, 'a+')
     output1.write(str0)
-    output1.close()
+
     output2 = open('/Users/wangcunxin/temp/output/%s_columns.sql' % dbname, 'a+')
     output2.write(tab_col)
-    output2.close()
+
     output3 = open('/Users/wangcunxin/temp/output/%s_tbs.sql' % dbname, 'a+')
     output3.write(tabs)
-    output3.close()
+
     output4 = open('/Users/wangcunxin/temp/output/%s_hb.sql' % dbname, 'a+')
     output4.write(hbs)
-    output4.close()
+
+
+output1.close()
+output2.close()
+output3.close()
+output4.close()
 cur.close()
 conn.commit()
 conn.close()

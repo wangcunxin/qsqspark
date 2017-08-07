@@ -23,3 +23,4 @@ product=product_update_at,product_id
 statistics=statistics_create_at,statistics_id
 transaction=transaction_update_at,transaction_id
 holiday=-,date
+equipment_log=equipment_log_update_at,equipment_log_id
